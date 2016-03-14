@@ -59,14 +59,14 @@ class simpleNet:
             shuffle=True,
         )
 
-    def train(self, train_data, val_data, dst_prefix, step, l_rate=0.01):
+    def train(self, train_data, val_data, dst_prefix, l_rate=0.01):
 
         if not train_data in self.data_iters:
-            logging.log('Training Data Unloaded.')
+            logging.info('Training Data Unloaded.')
             return
 
         if not val_data in self.data_iters:
-            logging.log('Validation Data Unloaded.')
+            logging.info('Validation Data Unloaded.')
             return
         self.net.optimizer = mx.optimizer.SGD(learning_rate=l_rate, momentum=0.9)
         self.net.fit(self.data_iters[train_data], eval_data=self.data_iters[val_data], eval_metric='acc',
