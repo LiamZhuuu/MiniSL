@@ -12,9 +12,8 @@ import math
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
-main_dir = '/home/jiaxuzhu/data/tieba_1000/faces_x/'
+main_dir = '/home/jiaxuzhu/data/cub_noisy/'
 sub_dir = {
-    'noisy_data': 'images',
     'clean_val': 'clean_images_val',
     'clean_train': 'clean_images_train',
     'mxnet_lsts': 'mxnet_lists',
@@ -22,7 +21,7 @@ sub_dir = {
     'mxnet_models': 'mxnet_models',
     'mxnet_logs': 'mxnet_logs',
     'mxnet_features': 'mxnet_features',
-    'noisy_images_train': 'noisy_images_train'
+    'noisy_train': 'noisy_train'
 }
 for key, value in sub_dir.items():
     sub_dir[key] = os.path.join(main_dir, value)
@@ -37,7 +36,7 @@ with open(os.path.join(main_dir, 'name_lst.json'), 'r') as nameLst:
 init_data = {
     'clean_val_all': 'clean_val',
     'clean_train_all': 'clean_train',
-    'noisy_train': 'noisy_images_train'
+    'noisy_train': 'noisy_train'
 }
 
 for data in init_data.keys():
@@ -47,7 +46,7 @@ for data in init_data.keys():
                  rec_file=os.path.join(sub_dir['mxnet_recs'], '%s.rec' % data))
 
 print 'Initial list and record file done'
-n_class = 181
+n_class = 200
 b_size = 128
 
 init_prefix = os.path.join(sub_dir['mxnet_models'], 'noisy_init', 'noisy_init')
