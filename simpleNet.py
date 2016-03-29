@@ -43,7 +43,7 @@ class simpleNet:
                                         ctx=ctx, aux_params=former_net.net.aux_params, allow_extra_params=True)
         self.data_iters = {}
 
-    def load_data(self, data_dir, rec_name, b_size=128, is_train=False):
+    def load_data(self, data_dir, rec_name, b_size=128, shape=224):
         rec_file = os.path.join(data_dir, rec_name)
         if not os.path.exists(rec_file):
             logging.info('Record File doesn\'t exists.')
@@ -51,12 +51,8 @@ class simpleNet:
         self.data_iters[rec_name] = mx.io.ImageRecordIter(
             path_imgrec=rec_file,
             batch_size=b_size,
-            data_shape=(3, 224, 224),
-            prefetch_buffer=1,
+            data_shape=(3, shape, shape),
             mean_img=self.mean_image,
-            rand_crop=is_train,
-            rand_mirror=is_train,
-            shuffle=True,
         )
 
     def train(self, train_data, val_data, dst_prefix, l_rate=0.01):

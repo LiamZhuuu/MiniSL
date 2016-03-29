@@ -106,9 +106,7 @@ init_iter = 14
 # print init_net.test_acc('clean_val.rec')
 
 r_label = 0.01
-r_cluster = 0.05
-n_reduce = 1
-n_round = 2
+r_cluster = 0.15
 
 method = 'mini'
 is_total = False
@@ -144,10 +142,10 @@ else:
         print init_net.test_acc('clean_val.rec')
 
     else:
+        n_round = 1
         clean_prefix = '%s_%s_%s_%d' % (method, str(r_label), str(r_cluster), n_round)
         if n_round > 1:
             init_prefix = '%s_%s_%s_%d' % (method, str(r_label), str(r_cluster), n_round-1)
-	    init_prefix = os.path.join(sub_dir['mxnet_models'], init_prefix, init_prefix)
             init_iter = 10
 
         label_file = os.path.join(sub_dir['mxnet_features'], '%s_label.json' % clean_prefix)
@@ -167,17 +165,17 @@ else:
         # print init_net.test_acc('clean_val.rec')
 
         image_label = kmeans_propose(main_dir, name_lst, lst_file, method=method, r_label=r_label, r_cluster=r_cluster,
-                                rec_file=rec_file, net=copy.copy(init_net), n_round=n_round, n_reduce=n_reduce,
+                                rec_file=rec_file, net=copy.copy(init_net), n_round=n_round,
                                 image_label=image_label, image_truth=image_truth, image_lst=image_lst)
-	with codecs.open(os.path.join(sub_dir['mxnet_features'], '%s_%s_%s_%d_label.json' % (method, str(r_label), str(r_cluster), n_round+1)), 'w', 'utf8') as labelFile:
-	    ujson.dump(image_label, labelFile)  
+	np.save(image_label, 
         init_net.load_data(sub_dir['mxnet_recs'], '%s.rec' % clean_prefix, b_size, shape=224)
 
         if not os.path.exists(os.path.join(sub_dir['mxnet_models'], clean_prefix)):
             os.mkdir(os.path.join(sub_dir['mxnet_models'], clean_prefix))
 
-        # init_net.train('%s.rec' % clean_prefix, 'clean_val.rec', os.path.join(sub_dir['mxnet_models'], clean_prefix, clean_prefix), l_rate=1e-4)
+        init_net.train('%s.rec' % clean_prefix, 'clean_val.rec',
+                       os.path.join(sub_dir['mxnet_models'], clean_prefix, clean_prefix), l_rate=1e-4)
 
-        # init_net.net.ctx = [mx.gpu(3)]
-        # print init_net.test_acc('clean_val.rec')
+        init_net.net.ctx = [mx.gpu(3)]
+        print init_net.test_acc('clean_val.rec')
 

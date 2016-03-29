@@ -9,19 +9,19 @@ dst_dir = '/home/jiaxuzhu/data/cub_noisy'
 classes = {}
 bings = []
 
-with open(os.path.join(main_dir, 'classes.txt'), 'r') as classFile:
-    for line in classFile.readlines():
-        tmp = line.split(' ')
-        label = int(tmp[0])
-        name = tmp[1]
-        classes[label] = name.strip('\n')
-        bings.append(classes[label].split('.')[-1].replace('_', ' '))
-
-with open(os.path.join(dst_dir, 'bing_keywords.json'), 'w') as bingFile:
-    json.dump(bings, bingFile)
-
-with open(os.path.join(dst_dir, 'name_lst.json'), 'w') as nameLst:
-    json.dump(classes, nameLst)
+# with open(os.path.join(main_dir, 'classes.txt'), 'r') as classFile:
+#     for line in classFile.readlines():
+#         tmp = line.split(' ')
+#         label = int(tmp[0])
+#         name = tmp[1]
+#         classes[label] = name.strip('\n')
+#         bings.append(classes[label].split('.')[-1].replace('_', ' '))
+#
+# with open(os.path.join(dst_dir, 'bing_keywords.json'), 'w') as bingFile:
+#     json.dump(bings, bingFile)
+#
+# with open(os.path.join(dst_dir, 'name_lst.json'), 'w') as nameLst:
+#     json.dump(classes, nameLst)
 
 #
 # is_train = []
@@ -67,3 +67,23 @@ with open(os.path.join(dst_dir, 'name_lst.json'), 'w') as nameLst:
 #     shutil.copy2(src, dst)
 #     # break
 
+
+import cv2
+import numpy as np
+
+# image_dir = '/home/jiaxuzhu/data/cub_noisy/noise_train'
+# names = os.listdir(image_dir)
+# for name in names:
+#     print name
+#     name_dir = os.path.join(image_dir, name)
+#     images = os.listdir(name_dir)
+#     for image in images:
+#         try:
+#             im = cv2.imread(os.path.join(name_dir, image))
+#         except:
+#             os.remove(os.path.join(name_dir, image))
+#             print image
+
+from PIL import Image
+im = Image.open('/home/jiaxuzhu/data/cub_noisy/noise_train/002.Laysan_Albatross/5cb86ef44d86859dc362b7a71ef799ce.jpg')
+print np.max(im)
