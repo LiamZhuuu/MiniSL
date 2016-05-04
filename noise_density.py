@@ -12,8 +12,10 @@ import time
 import math
 from utils import parse_data
 from exp_scripts import noise_place
+from sklearn.decomposition import PCA
 import codecs
 import cv2
+
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -131,13 +133,15 @@ if test:
     print init_net.test_acc(rec_file)
 
 else:
-    lst_file = os.path.join(sub_dir['mxnet_lsts'], 'noisy_train_disturb.lst')
-    feature_file = os.path.join(sub_dir['mxnet_features'], 'noisy_train_disturb_feature.npy')
-    prob_file = os.path.join(sub_dir['mxnet_features'], 'noisy_train_disturb_prob.npy')
-    data = parse_data(lst_file, feature_file, prob_file)
 
-    prefix = noise_place.script(sub_dir, sub_dir['noisy_train_disturb'], data, 
-        ratio=0.1, method=method)
+    files = dict(
+        lst_file=os.path.join(sub_dir['mxnet_lsts'], 'noisy_train_disturb.lst'),
+        feature_file=os.path.join(sub_dir['mxnet_features'], 'noisy_train_disturb_feature.npy'),
+        prob_file=os.path.join(sub_dir['mxnet_features'], 'noisy_train_disturb_prob.npy')
+    )
+
+    prefix = noise_place.script(sub_dir, sub_dir['noisy_train_disturb'],
+        ratio=0.1, method=method, files=files)
 
     log_file = os.path.join(sub_dir['mxnet_logs'], '%s.log' % prefix)
     if os.path.exists(log_file):

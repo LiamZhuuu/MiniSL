@@ -4,8 +4,6 @@ import numpy as np
 from scipy.spatial.distance import pdist, cdist
 from sklearn.semi_supervised import LabelSpreading, LabelPropagation
 import networkx as nx
-import matplotlib as mpl
-mpl.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.cluster import *
 from sklearn.manifold import *
@@ -96,9 +94,8 @@ def draw_graph(truth, prob, w, k, py=None, A=None, file_name=None):
                                node_color='m')
     nx.draw_networkx_edges(g, pos, width=1.0, alpha=0.5)
     nx.draw_networkx_labels(g, pos, labels, font_size=12, font_color='w')
-    mpl.rc("figure", facecolor="white")
-
-    plt.savefig(file_name, format="PNG")
+    # mpl.rc("figure", facecolor="white")
+    plt.show()
 
 
 def score(py, truth):
