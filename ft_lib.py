@@ -34,6 +34,7 @@ def parse_list(lst_file):
             files.append(tmp[-1])
     return np.array(labels), files
 
+
 def gen_list(image_dir, lst_file, pick_range, ratio=1.0, rec_file=None, shuffle=True):
     if not os.path.exists(lst_file):
         total = 0
@@ -43,7 +44,6 @@ def gen_list(image_dir, lst_file, pick_range, ratio=1.0, rec_file=None, shuffle=
                 images = files
                 break
             images.sort()
-            random.shuffle(images)
             images = images[:int(len(images)*ratio)]
             for i in range(len(images)):
                 line = '%d\t%d\t%s\n' % (total, label, os.path.join(name, images[i]))
@@ -56,10 +56,9 @@ def gen_list(image_dir, lst_file, pick_range, ratio=1.0, rec_file=None, shuffle=
         with codecs.open(lst_file, 'w', 'utf-8') as lstFile:
             lstFile.writelines(lst_content)
     if rec_file is not None and not os.path.exists(rec_file):
-        cmd = '/home/jiaxuzhu/im2rec %s %s/ %s' % (lst_file, image_dir, rec_file)
+        cmd = '/home/jiaxuzhu/developer/mxnet/bin/im2rec %s %s/ %s' % (lst_file, image_dir, rec_file)
         os.system(cmd)
         print 'rec file generated'
-
 
 
 def get_entropy(p):
@@ -69,6 +68,7 @@ def get_entropy(p):
     entropy = np.multiply(p, x)
     entropy = -np.sum(entropy, axis=1)
     return entropy
+
 
 def cluster_feature(features, prob, truth=None):
     c_feature = []
